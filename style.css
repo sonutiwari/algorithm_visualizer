@@ -1,10 +1,12 @@
 body {
     padding: 32px 64px;
     color: #2f363f;
-    background-color: rgba(249,250,252, 0.5);;
+    background-color: rgba(249,250,252, 0.5);
 }
 .bar {
     width: 20px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
     display: flex;
     flex-direction: column;
     margin: 0 1px;
@@ -13,6 +15,8 @@ body {
 }
 
 .bar-container {
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
     display: inline-block;
     margin: auto;
     padding: auto;
