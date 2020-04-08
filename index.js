@@ -200,7 +200,6 @@ async function doBinarySearch() {
     disableInteractions();
 
     let lineContainerChildElements = Array.from(document.getElementById(TEXT_LINES_CONTAINER).children).slice();
-    
     // Sort array and dom elements before performing binary search
     array.sort((a, b) => a - b);
     lineContainerChildElements.sort((a, b) => parseInt(a.style.height) - parseInt(b.style.height));
@@ -216,10 +215,17 @@ async function doBinarySearch() {
 
     // Append the sorted childs
     for (let i = MIN_NUM_RANGE; i < array.length; ++i) {
+        let  div = document.createElement(TEXT_DIV);
+        div.className = 'bar-container';
         let lineElement = document.createElement(TEXT_DIV);
         lineElement.className = CLASS_NAME_BAR;
-        lineElement.style.height = array[i] + TEXT_PX;
-        lineContainerElement.appendChild(lineElement);
+        let multiplier = array.length <= 50 ? LARGE_MULTIPLIER : SMALL_MULTIPLIER;
+        lineElement.style.height = array[i]*multiplier + TEXT_PX;
+        let textDiv = document.createElement(TEXT_DIV);
+        textDiv.innerHTML = array[i];
+        div.appendChild(lineElement);
+        div.appendChild(textDiv);
+        lineContainerElement.appendChild(div);
     }
 
     await sleep(AVG_SLEEP_TIME);
@@ -292,9 +298,12 @@ async function doBubbleSort() {
             lineContainerChildElements[animation.posI].style.backgroundColor = SELECT_COLOR;
             lineContainerChildElements[animation.posJ].style.backgroundColor = SELECT_COLOR;
             await sleep(SHORT_SLEEP_TIME);
-            const tempHeight = lineContainerChildElements[animation.posI].style.height;
-            lineContainerChildElements[animation.posI].style.height = lineContainerChildElements[animation.posJ].style.height;
-            lineContainerChildElements[animation.posJ].style.height = tempHeight;
+            const tempHeight = lineContainerChildElements[animation.posI].children[0].style.height;
+            const tempText = lineContainerChildElements[animation.posI].children[1].innerHTML;
+            lineContainerChildElements[animation.posI].children[0].style.height = lineContainerChildElements[animation.posJ].children[0].style.height;
+            lineContainerChildElements[animation.posI].children[1].innerHTML = lineContainerChildElements[animation.posJ].children[1].innerHTML
+            lineContainerChildElements[animation.posJ].children[0].style.height = tempHeight;
+            lineContainerChildElements[animation.posJ].children[1].innerHTML = tempText;
         }
 
         previous = animation;
@@ -337,9 +346,12 @@ async function doSelectionSort() {
             lineContainerChildElements[animation.min].style.backgroundColor = SELECT_COLOR;
             lineContainerChildElements[animation.i].style.backgroundColor = SELECT_COLOR;
             await sleep(SHORT_SLEEP_TIME);
-            const tempHeight = lineContainerChildElements[animation.min].style.height;
-            lineContainerChildElements[animation.min].style.height = lineContainerChildElements[animation.i].style.height;
-            lineContainerChildElements[animation.i].style.height = tempHeight;
+            const tempHeight = lineContainerChildElements[animation.min].children[0].style.height;
+            const tempText = lineContainerChildElements[animation.min].children[1].innerHTML;
+            lineContainerChildElements[animation.min].children[0].style.height = lineContainerChildElements[animation.i].children[0].style.height;
+            lineContainerChildElements[animation.min].children[1].innerHTML = lineContainerChildElements[animation.i].children[1].innerHTML;
+            lineContainerChildElements[animation.i].children[0].style.height = tempHeight;
+            lineContainerChildElements[animation.i].children[1].innerHTML = tempText;
         } else {
             lineContainerChildElements[animation.min].style.backgroundColor = FOUND_COLOR;
         }
